@@ -1,0 +1,196 @@
+<div class="container">
+  <form [formGroup]="formJuzgado" class="md-float-material">
+    <div class="auth-box">
+      <div class="row m-b-20">
+        <div class="col-md-12">
+          <h3 class="text-center txt-primary">Registrar Juzgados</h3>
+        </div>
+      </div>
+      <hr />
+
+      <div class="input-group">
+        <select
+          (change)="selecDepartamento($event)"
+          formControlName="departamento"
+          class="form-control mr-4"
+          aria-label="Default select example"
+        >
+          <option
+            value="{{ dep.id }}"
+            *ngFor="let dep of listDepartamentos"
+            selected
+          >
+            {{ dep.nombre }}
+          </option>
+        </select>
+        <select
+          formControlName="municipio"
+          class="form-control"
+          aria-label="Default select example"
+        >
+          <option
+            value="{{ muni.id }}"
+            *ngFor="let muni of listMunicipios"
+            selected
+          >
+            {{ muni.nombre }}
+          </option>
+        </select>
+      </div>
+      <div class="input-group">
+        <input
+          formControlName="nombre"
+          type="text"
+          class="form-control"
+          placeholder="Nombre del juzgado"
+        />
+        <span class="md-line"></span>
+      </div>
+
+      <div class="row m-t-30">
+        <div class="col-md-4">
+          <button
+            (click)="registrarJuzgado()"
+            [disabled]="!formJuzgado.valid"
+            type="button"
+            class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20"
+          >
+            Registrar Juzgado
+          </button>
+        </div>
+      </div>
+      <hr />
+    </div>
+  </form>
+  <hr />
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Municipio</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let juzgado of auxListJuzgados">
+        <th scope="row">{{ juzgado.idJuzgado }}</th>
+        <td>
+          {{ juzgado.nombre | uppercase }}
+        </td>
+        <td>{{ juzgado.municipio | uppercase }}</td>
+        <td>
+          <button
+            (click)="open(content, juzgado)"
+            class="btn-outline"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Editar registro"
+          >
+            <i class="ti-pencil"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-between p-2 scroll">
+    <ngb-pagination
+      [collectionSize]="collectionSize"
+      [(page)]="page"
+      [pageSize]="pageSize"
+      (pageChange)="refreshCountries()"
+    >
+    </ngb-pagination>
+  </div>
+</div>
+
+<!--MODAL EDITAR INFORMACION-->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Editar Juzgado</h4>
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      X
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formEditarJuzgado" class="md-float-material">
+      <div class="auth-box">
+        <div class="input-group">
+          <select
+            (change)="selecDepartamento($event)"
+            formControlName="departamento"
+            class="form-control mr-4"
+            aria-label="Default select example"
+          >
+            <option value="{{ dep.id }}" *ngFor="let dep of listDepartamentos">
+              {{ dep.nombre }}
+            </option>
+            <option value="{{ juzgadoEditado.idDepar }}" selected>
+              {{ juzgadoEditado.departamento }}
+            </option>
+          </select>
+          <select
+            formControlName="municipio"
+            class="form-control"
+            aria-label="Default select example"
+          >
+            <option value="{{ muni.id }}" *ngFor="let muni of listMunicipios">
+              {{ muni.nombre }}
+            </option>
+            <option value="{{ juzgadoEditado.ciudad }}" selected>
+              {{ juzgadoEditado.municipio }}
+            </option>
+          </select>
+        </div>
+        <div class="input-group">
+          <input
+            formControlName="nombre"
+            type="text"
+            class="form-control"
+            placeholder="Nombre del juzgado"
+          />
+          <span class="md-line"></span>
+        </div>
+
+        <div class="row m-t-30">
+          <div class="col-md-8">
+            <button
+              (click)="editarJuzgado()"
+              [disabled]="!formEditarJuzgado.valid"
+              type="button"
+              class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20"
+            >
+              Editar Juzgado
+            </button>
+          </div>
+        </div>
+        <div class="row m-t-30" *ngIf="respuestaEditar === true">
+          <div class="col-md-12">
+            <div
+              class="alert alert-success d-flex align-items-center"
+              role="alert"
+            >
+              <strong>Se actualizó correctamente el Juzgado.</strong>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')"
+    >
+      Cerrar
+    </button>
+  </div>
+</ng-template>

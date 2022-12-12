@@ -1,0 +1,418 @@
+<div class="container">
+  <form [formGroup]="formAbogado" class="md-float-material">
+    <div class="auth-box">
+      <div class="row m-b-20">
+        <div class="col-md-12">
+          <h3 class="text-center txt-primary">
+            Registrar Información de Abogado
+          </h3>
+        </div>
+      </div>
+      <hr />
+      <div class="input-group">
+        <select
+          formControlName="tipoDocumento"
+          class="form-control mr-4"
+          aria-label="Default select example"
+        >
+          <option selected>Seleccione tipo de documento</option>
+          <option value="CC">Cedula de ciudadanía</option>
+          <option value="NIT">Nit</option>
+        </select>
+        <input
+          type="number"
+          formControlName="identidad"
+          class="form-control"
+          placeholder="Número de Identificación"
+        />
+        <span class="md-line"></span>
+      </div>
+      <div class="input-group">
+        <select
+          placehorder="Tipo Persona"
+          formControlName="tipoPersona"
+          class="form-control mr-4"
+          aria-label="Default select example"
+        >
+          <option selected>Tipo Persona</option>
+          <option value="PN">Persona Natural</option>
+          <option value="PJ">Persona Jurídica</option>
+        </select>
+        <input
+          formControlName="nombre"
+          type="text"
+          class="form-control mr-4"
+          placeholder="Nombres"
+        />
+        <span class="md-line"></span>
+        <input
+          formControlName="apellido"
+          type="text"
+          class="form-control"
+          placeholder="Apellidos"
+        />
+        <span class="md-line"></span>
+      </div>
+      <div class="input-group">
+        <input
+          formControlName="telefono"
+          type="number"
+          class="form-control mr-4"
+          placeholder="Teléfono"
+        />
+        <span class="md-line"></span>
+        <input
+          formControlName="movil"
+          type="number"
+          class="form-control mr-4"
+          placeholder="Movil"
+        />
+        <span class="md-line"></span>
+        <input
+          formControlName="direccion"
+          type="text"
+          class="form-control"
+          placeholder="Dirección"
+        />
+        <span class="md-line"></span>
+      </div>
+      <div class="input-group">
+        <input
+          formControlName="email"
+          type="email"
+          class="form-control mr-4"
+          placeholder="Email"
+        />
+        <select
+          formControlName="genero"
+          class="form-control mr-4"
+          aria-label="Default select example"
+        >
+          <option selected>Sexo</option>
+          <option value="M">Masculino</option>
+          <option value="F">Femenino</option>
+        </select>
+        <select
+          formControlName="estadoCivil"
+          class="form-control"
+          aria-label="Default select example"
+        >
+          <option selected>Estado civil</option>
+          <option value="S">Soltero</option>
+          <option value="UN">Unión libre</option>
+          <option value="C">Casado</option>
+          <option value="D">Divorciado</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <select
+          (change)="selecDepartamento($event)"
+          formControlName="departamento"
+          class="form-control mr-4"
+          aria-label="Default select example"
+        >
+          <option
+            value="{{ dep.id }}"
+            *ngFor="let dep of listDepartamentos"
+            selected
+          >
+            {{ dep.nombre }}
+          </option>
+        </select>
+        <select
+          formControlName="municipio"
+          class="form-control"
+          aria-label="Default select example"
+        >
+          <option
+            value="{{ muni.id }}"
+            *ngFor="let muni of listMunicipios"
+            selected
+          >
+            {{ muni.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <input
+          formControlName="tarjetaProfesional"
+          type="text"
+          class="form-control mr-4"
+          placeholder="Número tarjeta profesional"
+        />
+        <span class="md-line"></span>
+        <input
+          formControlName="especialidad"
+          type="text"
+          class="form-control mr-4"
+          placeholder="Especialidad"
+        />
+        <span class="md-line"></span>
+        <input
+          formControlName="fechaNacimiento"
+          type="date"
+          class="form-control"
+          placeholder="Fecha nacimiento"
+        />
+        <span class="md-line"></span>
+      </div>
+
+      <div class="row m-t-30">
+        <div class="col-md-4">
+          <button
+            (click)="registrarAbogado()"
+            [disabled]="!formAbogado.valid"
+            type="button"
+            class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20"
+          >
+            Registrar Abogado
+          </button>
+        </div>
+      </div>
+      <hr />
+    </div>
+  </form>
+  <hr />
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Identificación</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Teléfono</th>
+        <th scope="col">Emáil</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listAbogados">
+        <th scope="row">{{ item.identidad }}</th>
+        <td>{{ item.nombre | uppercase }} {{ item.apellido | uppercase }}</td>
+        <td>{{ item.telefono }}</td>
+        <td>{{ item.email }}</td>
+        <td>
+          <button
+          (click)="verInformacion(content, item)"
+            class="btn-outline mr-2"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Ver infomracion"
+          >
+            <i class="ti-eye"></i>
+          </button>
+          <button
+            class="btn-outline"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Editar"
+          >
+            <i class="ti-pencil"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-between p-2 scroll">
+    <ngb-pagination
+      [collectionSize]="collectionSize"
+      [(page)]="page"
+      [pageSize]="pageSize"
+      (pageChange)="refreshAbogados()"
+    >
+    </ngb-pagination>
+  </div>
+</div>
+
+<!--MODAL VER INFORMACION-->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Ver Información Abogado</h4>
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      X
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formEditarAbogado" class="md-float-material">
+      <div class="auth-box">
+        <div class="input-group">
+          <select 
+            formControlName="tipoDocumento"
+            class="form-control mr-4"
+            aria-label="Default select example"
+          >
+            <option selected>Seleccione tipo de documento</option>
+            <option value="CC">Cedula de ciudadanía</option>
+            <option value="NIT">Nit</option>
+          </select>
+          <input
+            type="number"
+            formControlName="identidad"
+            class="form-control"
+            placeholder="Número de Identificación"
+          />
+          <span class="md-line"></span>
+        </div>
+        <div class="input-group">
+          <select
+            placehorder="Tipo Persona"
+            formControlName="tipoPersona"
+            class="form-control mr-4"
+            aria-label="Default select example"
+          >
+            <option selected>Tipo Persona</option>
+            <option value="PN">Persona Natural</option>
+            <option value="PJ">Persona Jurídica</option>
+          </select>
+          <input
+            formControlName="nombre"
+            type="text"
+            class="form-control mr-4"
+            placeholder="Nombres"
+          />
+          <span class="md-line"></span>
+          <input
+            formControlName="apellido"
+            type="text"
+            class="form-control"
+            placeholder="Apellidos"
+          />
+          <span class="md-line"></span>
+        </div>
+        <div class="input-group">
+          <input
+            formControlName="telefono"
+            type="number"
+            class="form-control mr-4"
+            placeholder="Teléfono"
+          />
+          <span class="md-line"></span>
+          <input
+            formControlName="movil"
+            type="number"
+            class="form-control mr-4"
+            placeholder="Movil"
+          />
+          <span class="md-line"></span>
+          <input
+            formControlName="direccion"
+            type="text"
+            class="form-control"
+            placeholder="Dirección"
+          />
+          <span class="md-line"></span>
+        </div>
+        <div class="input-group">
+          <input
+            formControlName="email"
+            type="email"
+            class="form-control mr-4"
+            placeholder="Email"
+          />
+          <select
+            formControlName="genero"
+            class="form-control mr-4"
+            aria-label="Default select example"
+          >
+            <option selected>Sexo</option>
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+          </select>
+          <select
+            formControlName="estadoCivil"
+            class="form-control"
+            aria-label="Default select example"
+          >
+            <option selected>Estado civil</option>
+            <option value="S">Soltero</option>
+            <option value="UN">Unión libre</option>
+            <option value="C">Casado</option>
+            <option value="D">Divorciado</option>
+          </select>
+        </div>
+  
+        <div class="input-group">
+          <select
+            (change)="selecDepartamento($event)"
+            formControlName="departamento"
+            class="form-control mr-4"
+            aria-label="Default select example"
+          >
+            <option
+              value="{{ dep.id }}"
+              *ngFor="let dep of listDepartamentos"
+              selected
+            >
+              {{ dep.nombre }}
+            </option>
+          </select>
+          <select
+            formControlName="municipio"
+            class="form-control"
+            aria-label="Default select example"
+          >
+            <option
+              value="{{ muni.id }}"
+              *ngFor="let muni of listMunicipios"
+              selected
+            >
+              {{ muni.nombre }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="input-group">
+          <input
+            formControlName="tarjetaProfesional"
+            type="text"
+            class="form-control mr-4"
+            placeholder="Número tarjeta profesional"
+          />
+          <span class="md-line"></span>
+          <input
+            formControlName="especialidad"
+            type="text"
+            class="form-control mr-4"
+            placeholder="Especialidad"
+          />
+          <span class="md-line"></span>
+          <input
+            formControlName="fechaNacimiento"
+            type="date"
+            class="form-control"
+            placeholder="Fecha nacimiento"
+          />
+          <span class="md-line"></span>
+        </div>
+  
+        <div class="row m-t-30">
+          <div class="col-md-12">
+            <button
+              (click)="registrarAbogado()"
+              [disabled]="!formAbogado.valid"
+              type="button"
+              class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20"
+            >
+              Editar Información Abogado
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')"
+    >
+      Cerrar
+    </button>
+  </div>
+</ng-template>
