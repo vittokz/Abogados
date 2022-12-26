@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from "@angular/core";
 
 export interface BadgeItem {
   type: string;
@@ -32,30 +32,44 @@ export interface Menu {
 
 const MENUITEMS = [
   {
-    label: 'Menú',
+    label: "Menú",
     main: [
       {
-        state: 'abogados',
-        short_label: 'B',
-        name: 'Abogados',
-        type: 'link',
-        icon: 'ti-user'
-    },
+        state: "abogados",
+        short_label: "B",
+        name: "Abogados",
+        type: "link",
+        icon: "ti-user",
+      },
       {
-        state: 'usuarios',
-        short_label: 'B',
-        name: 'Usuarios',
-        type: 'link',
-        icon: 'ti-user'
-    },
+        state: "usuarios",
+        short_label: "B",
+        name: "Usuarios",
+        type: "link",
+        icon: "ti-id-badge",
+      },
 
-    {
-      state: 'juzgados',
-      short_label: 'B',
-      name: 'Juzgados',
-      type: 'link',
-      icon: 'ti-stamp'
-  },
+      {
+        state: "juzgados",
+        short_label: "B",
+        name: "Juzgados",
+        type: "link",
+        icon: "ti-home",
+      },
+      {
+        state: "contratos",
+        short_label: "B",
+        name: "Contratos",
+        type: "link",
+        icon: "ti-agenda",
+      },
+      {
+        state: "clientes",
+        short_label: "B",
+        name: "Clientes",
+        type: "link",
+        icon: "ti-user",
+      },
       // {
       //   state: 'dashboard',
       //   short_label: 'D',

@@ -21,4 +21,8 @@ export class UsuariosClientesService {
   getAllUsuarios(): Observable<IUsuario[]> {
     return this.http.get<IUsuario[]>(this.apiUrl + "usuarios/getAllUsuarios.php");
   }
+   //RECUPERAR USUARIO- CLIENTE POR IDENTIDAD
+   getUsuarioByIdentidad(identidad:string): Observable<IUsuario> {
+    return this.http.get<IUsuario>(this.apiUrl + "usuarios/getUsuarioByIdentidad.php?identidad="+identidad);
+  }
 }

@@ -17,6 +17,7 @@ export class MainUsuariosComponent implements OnInit {
   listUsuarios: IUsuario[]=[];
   auxListUsuarios: IUsuario[]=[];
   nuevoAbogado: IUsuario;
+  selectTipoPersona: string='';
   listDepartamentos: IDepartamento[];
   listMunicipios: IMunicipio[];
   page = 1;
@@ -55,16 +56,18 @@ export class MainUsuariosComponent implements OnInit {
       tipoDocumento: ["", Validators.required],
       identidad: ["", Validators.required],
       tipoPersona: ["", Validators.required],
+      nombreEmpresa: [""],
       nombre: ["", Validators.required],
       apellido: ["", Validators.required],
       telefono: ["", Validators.required],
       movil: ["", Validators.required],
       direccion: ["", Validators.required],
       email: ["", Validators.required],
-      genero: ["", Validators.required],
+      genero: [""],
+      especialidad: [""],
       departamento: ["", Validators.required],
       municipio: ["", Validators.required],
-      fechaNacimiento: ["", Validators.required],
+      fechaNacimiento: [""],
       usuarioRegistro: [""],
     });
   }
@@ -83,6 +86,10 @@ export class MainUsuariosComponent implements OnInit {
         this.listMunicipios = data;
       });
   }
+    //seleccionar tipo persona
+    selecTipoPersona(event){
+      this.selectTipoPersona =event.target.value;
+   }
 
   //REGISTRAR UN USUARIO
   registrarUsuario(){
@@ -90,6 +97,8 @@ export class MainUsuariosComponent implements OnInit {
       const formData = new FormData();
       formData.append("tipoDoc", this.formUsuario.get("tipoDocumento").value);
       formData.append("identidad", this.formUsuario.get("identidad").value);
+      formData.append("tipoPersona", this.formUsuario.get("tipoPersona").value);
+      formData.append("nombreEmpresa", this.formUsuario.get("nombreEmpresa").value);
       formData.append("nombre", this.formUsuario.get("nombre").value);
       formData.append("apellido", this.formUsuario.get("apellido").value);
       formData.append("telefono", this.formUsuario.get("telefono").value);
@@ -97,12 +106,14 @@ export class MainUsuariosComponent implements OnInit {
       formData.append("direccion", this.formUsuario.get("direccion").value);
       formData.append("email", this.formUsuario.get("email").value);
       formData.append("genero", this.formUsuario.get("genero").value);
+      formData.append("especialidad", this.formUsuario.get("especialidad").value);
       formData.append("departamento", this.formUsuario.get("departamento").value);
       formData.append("municipio", this.formUsuario.get("municipio").value);
       formData.append("fechaNacimiento", this.formUsuario.get("fechaNacimiento").value);
       formData.append("usuarioRegistro",localStorage.getItem('accesToken'));
       this.usuariosClienteServices.createUsuario(formData).subscribe(
         respuesta=>{
+          this.formUsuario.reset();
           this.alertService.toast();
           this.getUsuarios();
         }

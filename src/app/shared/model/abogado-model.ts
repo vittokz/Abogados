@@ -1,6 +1,6 @@
 export interface IAbogado {
     id: number;
-    tipoDocumento: string;
+    tipoDoc: string;
     identidad: string;
     nombre: string;
     apellido: string;

@@ -194,7 +194,7 @@ export class MainJuzgadosComponent implements OnInit {
   //EDITAR UN JUZGADO
   editarJuzgado() {
     const formData = new FormData();
-	formData.append("idJuzgado", this.juzgadoEditado.idJuzgado);
+	  formData.append("idJuzgado", this.juzgadoEditado.idJuzgado);
     formData.append("nombre", this.formEditarJuzgado.get("nombre").value);
     formData.append("municipio", this.formEditarJuzgado.get("municipio").value);
     formData.append("usuarioRegistro", localStorage.getItem("accesToken"));
@@ -217,7 +217,7 @@ export class MainJuzgadosComponent implements OnInit {
   //MODALES
   open(content, juzgado: IJuzgado) {
     this.juzgadoEditado = juzgado;
-	this.respuestaEditar=false;
+	  this.respuestaEditar=false;
     this.formEditarJuzgado.get("nombre").setValue(juzgado.nombre);
     this.formEditarJuzgado.get("municipio").setValue(juzgado.ciudad);
     this.formEditarJuzgado.get("departamento").setValue(juzgado.idDepar);

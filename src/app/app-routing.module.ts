@@ -14,7 +14,7 @@ const routes: Routes = [
         pathMatch: 'full'
       }, 
       {
-        path: 'client',
+        path: 'clientes',
         loadChildren: () => import('./pages/client/client.module').then(m => m.ClientModule)
       },
       {
@@ -28,6 +28,10 @@ const routes: Routes = [
       {
         path: 'juzgados',
         loadChildren: () => import('./pages/juzgados/juzgados.module').then(m => m.JuzgadosModule)
+      },
+      {
+        path: 'contratos',
+        loadChildren: () => import('./pages/contratos/contratos.module').then(m => m.ContratosModule)
       },
       {
         path: 'dashboard',

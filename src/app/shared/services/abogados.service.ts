@@ -18,8 +18,17 @@ export class AbogadosService {
     return this.http.post<any>(this.apiUrl + "abogados/addAbogado.php", abogado);
   }
 
+  //update un abogado
+  updateAbogado(abogado): Observable<any> {
+    return this.http.post<any>(this.apiUrl + "abogados/updateAbogado.php", abogado);
+  }
+
   //RECUPERAR TODOS LOS ABOGADOS
   getAllAbogados(): Observable<IAbogado[]> {
     return this.http.get<IAbogado[]>(this.apiUrl + "abogados/getAllAbogados.php");
+  }
+   //RECUPERARABOGADO POR IDENTIDAD
+   getAbogadoByIdentidad(identidad:string): Observable<IAbogado> {
+    return this.http.get<IAbogado>(this.apiUrl + "abogados/getAbogadoByIdentidad.php?identidad="+identidad);
   }
 }

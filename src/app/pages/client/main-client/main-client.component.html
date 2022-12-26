@@ -1,85 +1,58 @@
 <div class="container">
     <form [formGroup]="formClient" class="md-float-material">
          <div class="auth-box">
-          <div class="row m-b-20">
-            <div class="col-md-12">
-              <h3 class="text-center txt-primary">Registrar Información de Usuario</h3>
+            <div class="row m-b-20">
+                <div class="col-md-12">
+                  <h3 class="text-center txt-primary">Clientes</h3>
+                </div>
             </div>
-          </div>
-          <hr/>
-          <div class="input-group">
-          <select formControlName="tipoDocumento" class="form-control mr-4" aria-label="Default select example">
-            <option selected>Seleccione tipo de documento</option>
-            <option value="CC">Cedula de ciudadanía</option>
-            <option value="NIT">Nit</option>
-          </select>
-          <input formControlName="identidad" type="number" class="form-control" placeholder="Número de Identificación">
-          <span class="md-line"></span>
-          </div>
-          <div class="input-group">
-            <select formControlName="tipoPersona" (change)="selectTipoPersona($event)" class="form-control" aria-label="Default select example">
-              <option selected>Tipo Persona</option>
-              <option value="PN">Persona Natural</option>
-              <option value="PJ">Persona Jurídica</option>
-            </select>
-            </div>
+         
             <div class="input-group">
-              <input formControlName="nombre" type="text" class="form-control mr-4" placeholder="Nombres">
+              <input formControlName="identidad" type="number" 
+              class="form-control" placeholder="Número de Identificación del cliente">
               <span class="md-line"></span>
-              <input formControlName="apellido" type="text" class="form-control" placeholder="Apellidos">
-              <span class="md-line"></span>
-              </div>
-          <div class="input-group">
-            <input formControlName="telefono" type="number" class="form-control mr-4" placeholder="Teléfono">
-            <span class="md-line"></span>
-            <input formControlName="movil" type="number" class="form-control mr-4" placeholder="Movil">
-            <span class="md-line"></span>
-            <input formControlName="direccion" type="text" class="form-control" placeholder="Dirección">
-            <span class="md-line"></span>
-          </div>
-          <div class="input-group">
-            <input formControlName="email" type="email" class="form-control mr-4" placeholder="Email">
-            <select formControlName="genero" class="form-control mr-4" aria-label="Default select example">
-              <option selected>Sexo</option>
-              <option value="M">Masculino</option>
-              <option value="F">Femenino</option>
-            </select>
-            <select formControlName="estadoCivil" class="form-control" aria-label="Default select example">
-                <option selected>Estado civil</option>
-                <option value="S">Soltero</option>
-                <option value="UN">Unión libre</option>
-                <option value="C">Casado</option>
-                <option value="D">Divorciado</option>
-              </select>
-        </div>
-
-        <div class="input-group" *ngIf="tipoPersonaSeleccionada==='PN'">
-          <input formControlName="especialidad" type="text" class="form-control mr-4" placeholder="Especialidad">
-          <input formControlName="fechaNacimiento" type="date" class="form-control" placeholder="Fecha nacimiento">
-        </div>
-
-        <div class="input-group">
-            <select formControlName="departamento" class="form-control mr-4" aria-label="Default select example">
-              <option selected>Departamento</option>
-              <option value="M">Caqueta</option>
-              <option value="F">Nariño</option>
-            </select>
-            <select formControlName="municipio" class="form-control" aria-label="Default select example">
-                <option selected>Ciudad</option>
-                <option value="S">Florencia</option>
-                <option value="UN">Pasto</option>
-              </select>
-        </div>
-       
-         <div class="row m-t-30">
-            <div class="col-md-4">
-              <button
-              (click)="registrarClient()"
-              [disabled]="!formClient.valid"
-              type="button" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">Registrar Usuario</button>
             </div>
+         
+          <div class="row m-t-30">
+              <div class="col-md-4">
+                <button
+                (click)="buscarCliente()"
+                [disabled]="!formClient.valid"
+                type="button" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">
+                Buscar Cliente</button>
+              </div>
           </div>
-          <hr/>
-        </div>
-      </form>
+         </div>
+    </form>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre contrato</th>
+          <th scope="col">Identidad Abogado Asignado</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <tr *ngFor="let contrato of listContratosEncontrados">
+          <th scope="row">{{contrato.id}}</th>
+          <td>{{contrato.nombreContrato}}</td>
+          <td>{{contrato.identidadAbogado}}</td>
+          <td>
+            <a target="_blank" href="{{apiUrl}}/contratos/contrato/{{contrato.identidadCliente}}/{{contrato.nombreArchivo}}"
+              class="btn-outline mr-3"
+              title="ver contrato"
+            >
+              <i class="ti-file"></i>
+          </a>
+          <a 
+              class="btn-outline"
+              title="Seleccionar contrato"
+            >
+              <i class="ti-arrow-right"></i>
+          </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 </div>

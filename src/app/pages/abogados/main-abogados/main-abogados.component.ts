@@ -13,6 +13,7 @@ import {
   NgbDatepickerModule,
   NgbModal,
 } from "@ng-bootstrap/ng-bootstrap";
+import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 @Component({
   selector: "app-main-abogados",
   templateUrl: "./main-abogados.component.html",
@@ -24,13 +25,18 @@ export class MainAbogadosComponent implements OnInit {
   listAbogados: IAbogado[] = [];
   auxListAbogados: IAbogado[] = [];
   nuevoAbogado: IAbogado;
+  selectedAbogado: IAbogado;
+  selectTipoPersona: string='';
   listDepartamentos: IDepartamento[];
   listMunicipios: IMunicipio[];
+  respuestaEditar: boolean;
   page = 1;
   pageSize = 10;
   collectionSize = 0;
   closeResult = "";
   estadoInput: string = "disabled";
+  //variables para realizar update de datos
+
   constructor(
     private formBuilder: FormBuilder,
     private localidadesServices: LocalidadesService,
@@ -66,7 +72,6 @@ export class MainAbogadosComponent implements OnInit {
     this.formAbogado = this.formBuilder.group({
       tipoDocumento: ["", Validators.required],
       identidad: ["", Validators.required],
-      tipoPersona: ["", Validators.required],
       nombre: ["", Validators.required],
       apellido: ["", Validators.required],
       telefono: ["", Validators.required],
@@ -85,7 +90,6 @@ export class MainAbogadosComponent implements OnInit {
     this.formEditarAbogado = this.formBuilder.group({
       tipoDocumento: ["", Validators.required],
       identidad: ["", Validators.required],
-      tipoPersona: ["", Validators.required],
       nombre: ["", Validators.required],
       apellido: ["", Validators.required],
       telefono: ["", Validators.required],
@@ -116,6 +120,7 @@ export class MainAbogadosComponent implements OnInit {
         this.listMunicipios = data;
       });
   }
+
   //REGISTRAR UN ABOGADO
   registrarAbogado() {
     if (this.formAbogado.valid) {
@@ -150,15 +155,24 @@ export class MainAbogadosComponent implements OnInit {
       formData.append("usuarioRegistro", localStorage.getItem("accesToken"));
       this.abogadosServices.createAbogado(formData).subscribe((respuesta) => {
         this.alertService.toast();
+        this.formAbogado.reset();
         this.getAbogados();
       });
     }
   }
 
   //MODALES
-  verInformacion(content, abogado: IAbogado) {
+  editarInformacion(content, abogado: IAbogado) {
     //this.respuestaEditar=false;
-    this.formEditarAbogado.get("tipoDocumento").setValue(abogado.tipoDocumento);
+    this.selectedAbogado = abogado;
+    this.respuestaEditar=false;
+    this.localidadesServices
+      .getAllMunicipios(abogado.departamento)
+      .subscribe((data) => {
+        console.log(data);
+        this.listMunicipios = data;
+      });
+    this.formEditarAbogado.get("tipoDocumento").setValue(abogado.tipoDoc);
     this.formEditarAbogado.get("identidad").setValue(abogado.identidad);
     this.formEditarAbogado.get("nombre").setValue(abogado.nombre);
     this.formEditarAbogado.get("apellido").setValue(abogado.apellido);
@@ -166,7 +180,7 @@ export class MainAbogadosComponent implements OnInit {
     this.formEditarAbogado.get("movil").setValue(abogado.movil);
     this.formEditarAbogado.get("direccion").setValue(abogado.direccion);
     this.formEditarAbogado.get("email").setValue(abogado.email);
-    this.formEditarAbogado.get("genero").setValue(abogado.fechaRegistro);
+    this.formEditarAbogado.get("genero").setValue(abogado.genero);
     this.formEditarAbogado.get("estadoCivil").setValue(abogado.estadoCivil);
     this.formEditarAbogado.get("departamento").setValue(abogado.departamento);
     this.formEditarAbogado.get("municipio").setValue(abogado.ciudad);
@@ -193,6 +207,7 @@ export class MainAbogadosComponent implements OnInit {
         }
       );
   }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return "by pressing ESC";
@@ -203,32 +218,42 @@ export class MainAbogadosComponent implements OnInit {
     }
   }
 
-  // formData.append("tipoDoc", abogado.tipoDocumento);
-  // formData.append("identidad", abogado.identidad);
-  // formData.append("nombre", abogado.nombre);
-  // formData.append("apellido", abogado.apellido);
-  // formData.append("telefono", abogado.telefono);
-  // formData.append("movil", abogado.movil);
-  // formData.append("direccion", abogado.direccion);
-  // formData.append("email", abogado.email);
-  // formData.append("genero", abogado.fechaRegistro);
-  // formData.append("estadoCivil", abogado.estadoCivil);
-  // formData.append(
-  //   "departamento",
-  //   abogado.departamento
-  // );
-  // formData.append("municipio", abogado.ciudad);
-  // formData.append(
-  //   "tarjetaProfesional",
-  //   abogado.tarjetaProfesional
-  // );
-  // formData.append(
-  //   "especialidad",
-  //   abogado.especialidad
-  // );
-  // formData.append(
-  //   "fechaNacimiento",
-  //   abogado.fechaNacimiento
-  // );
-  // formData.append("usuarioRegistro", localStorage.getItem("accesToken"));
+  //REGISTRAR UN ABOGADO
+  editarAbogado() {
+    if (this.formEditarAbogado.valid) {
+      const formData = new FormData();
+      formData.append("tipoDoc", this.formEditarAbogado.get("tipoDocumento").value);
+      formData.append("identidad", this.formEditarAbogado.get("identidad").value);
+      formData.append("nombre", this.formEditarAbogado.get("nombre").value);
+      formData.append("apellido", this.formEditarAbogado.get("apellido").value);
+      formData.append("telefono", this.formEditarAbogado.get("telefono").value);
+      formData.append("movil", this.formEditarAbogado.get("movil").value);
+      formData.append("direccion", this.formEditarAbogado.get("direccion").value);
+      formData.append("email", this.formEditarAbogado.get("email").value);
+      formData.append("genero", this.formEditarAbogado.get("genero").value);
+      formData.append("estadoCivil", this.formEditarAbogado.get("estadoCivil").value);
+      formData.append(
+        "departamento",
+        this.formEditarAbogado.get("departamento").value
+      );
+      formData.append("municipio", this.formEditarAbogado.get("municipio").value);
+      formData.append(
+        "tarjetaProfesional",
+        this.formEditarAbogado.get("tarjetaProfesional").value
+      );
+      formData.append(
+        "especialidad",
+        this.formEditarAbogado.get("especialidad").value
+      );
+      formData.append(
+        "fechaNacimiento",
+        this.formEditarAbogado.get("fechaNacimiento").value
+      );
+      formData.append("usuarioRegistro", localStorage.getItem("accesToken"));
+      this.abogadosServices.updateAbogado(formData).subscribe((respuesta) => {
+        this.getAbogados();
+        this.respuestaEditar=true;
+      });
+    }
+  }
 }

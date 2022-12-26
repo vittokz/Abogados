@@ -10,23 +10,54 @@
           <div class="input-group">
           <select formControlName="tipoDocumento" class="form-control mr-4" aria-label="Default select example">
             <option selected>Seleccione tipo de documento</option>
-            <option value="CC">Cedula de ciudadanía</option>
+            <option value="Cedula de ciudadanía">Cedula de ciudadanía</option>
             <option value="NIT">Nit</option>
           </select>
           <input type="number" formControlName="identidad" class="form-control" placeholder="Número de Identificación">
           <span class="md-line"></span>
           </div>
-          <div class="input-group">
-            <select placehorder="Tipo Persona" formControlName="tipoPersona" class="form-control mr-4" aria-label="Default select example">
-              <option selected>Tipo Persona</option>
-              <option value="PN">Persona Natural</option>
-              <option value="PJ">Persona Jurídica</option>
-            </select>
-            <input formControlName="nombre" type="text" class="form-control mr-4" placeholder="Nombres">
-            <span class="md-line"></span>
-            <input formControlName="apellido" type="text" class="form-control" placeholder="Apellidos">
-            <span class="md-line"></span>
+          <div class="contenedor-title"> 
+            <div style="width: 140px; margin-top: 8px; text-align: center; font-weight: 800;">
+              Tipo Persona
             </div>
+            <select
+            (change)="selecTipoPersona($event)"
+              placehorder="Tipo Persona"
+              formControlName="tipoPersona"
+              class="form-control"
+              aria-label="Default select example"
+            >
+              <option value="Persona Natural" selected>Persona Natural</option>
+              <option value="Persona Juridica">Persona Jurídica</option>
+            </select>
+         
+        </div>
+        <div class="input-group">
+            <input *ngIf="selectTipoPersona==='Persona Juridica'"
+            formControlName="nombreEmpresa"
+            type="text"
+            class="form-control mr-4"
+            placeholder="Nombre de la empresa"
+          />
+          <span class="md-line"></span>
+        </div>
+
+        <div class="input-group">
+          <input
+          formControlName="nombre"
+          type="text"
+          class="form-control mr-4"
+          placeholder="Nombres"
+        />
+        <span class="md-line"></span>
+        <input
+          formControlName="apellido"
+          type="text"
+          class="form-control"
+          placeholder="Apellidos"
+        />
+        <span class="md-line"></span>
+        </div>
           <div class="input-group">
             <input formControlName="telefono" type="number" class="form-control mr-4" placeholder="Teléfono">
             <span class="md-line"></span>
@@ -36,11 +67,11 @@
             <span class="md-line"></span>
           </div>
           <div class="input-group">
-            <input formControlName="email" type="email" class="form-control mr-4" placeholder="Email">
-            <select formControlName="genero" class="form-control mr-4" aria-label="Default select example">
+            <input formControlName="email" type="email" class="form-control" placeholder="Email">
+            <select  *ngIf="selectTipoPersona==='Persona Natural'" formControlName="genero" class="ml-4 form-control" aria-label="Default select example">
               <option selected>Sexo</option>
-              <option value="M">Masculino</option>
-              <option value="F">Femenino</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Femenino">Femenino</option>
             </select>
         </div>
 
@@ -53,7 +84,14 @@
           </select>
         </div>
 
-        <div class="input-group">
+        <div *ngIf="selectTipoPersona==='Persona Natural'" class="input-group">
+          <input 
+          formControlName="especialidad"
+          type="text"
+          class="form-control mr-4"
+          placeholder="Especialidad"
+        />
+        <span class="md-line"></span>
             <input formControlName="fechaNacimiento" type="date" class="form-control" placeholder="Fecha nacimiento">
             <span class="md-line"></span>
           </div>

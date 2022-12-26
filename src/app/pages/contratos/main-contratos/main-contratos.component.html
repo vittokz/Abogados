@@ -1,0 +1,113 @@
+<div class="container">
+  <form [formGroup]="formContrato" class="md-float-material">
+    <div class="auth-box">
+      <div class="row m-b-20">
+        <div class="col-md-12">
+          <h3 class="text-center txt-primary">Registrar Contratos</h3>
+        </div>
+      </div>
+      <hr />
+
+      <div class="input-group">
+        <input
+          formControlName="identidad"
+          type="number"
+          (change)="buscarCliente($event)"
+          class="form-control mr-2"
+          placeholder="Identidad del cliente"
+        />
+        <span class="md-line"></span>
+        <input
+          formControlName="nombreCliente"
+          type="text"
+          class="form-control"
+          placeholder="Nombre del cliente"
+        />
+        <span class="md-line"></span>
+      </div>
+      <hr>
+      <div class="input-group">
+        <input
+          formControlName="identidadAbogado"
+          type="number"
+          (change)="buscarAbogado($event)"
+          class="form-control mr-2"
+          placeholder="Identidad del Abogado a asignar"
+        />
+        <span class="md-line"></span>
+        <input
+          formControlName="nombreAbogado"
+          type="text"
+          class="form-control"
+          placeholder="Nombre del Abogado"
+        />
+        <span class="md-line"></span>
+      </div>
+
+      <div class="input-group">
+        <input
+          formControlName="nombreContrato"
+          type="text"
+          class="form-control mr-2"
+          placeholder="Nombre del contrato"
+        />
+        <span class="md-line"></span>
+        <input accept=".doc,.pdf" type="file" class="form-control" name="fileContrato" (change)="onFileSelect($event)" />  
+        <span class="md-line"></span>
+      </div>
+
+      <div class="row m-t-30">
+        <div class="col-md-4">
+          <button
+            (click)="registrarContrato()"
+            [disabled]="!formContrato.valid"
+            type="button"
+            class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20"
+          >
+            Registrar Contrato
+          </button>
+        </div>
+      </div>
+      <hr />
+    </div>
+  </form>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Identidad Cliente</th>
+        <th scope="col">Identidad Abogado</th>
+        <th scope="col">Contrato</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contrato of listAuxContratos">
+        <th scope="row">{{ contrato.id }}</th>
+        <th>{{ contrato.identidadCliente }}</th>
+        <td>{{ contrato.identidadAbogado }}</td>
+        <td>{{ contrato.nombreContrato }}</td>
+        <td>
+          <a target="_blank" href="{{apiUrl}}/contratos/contrato/{{contrato.identidadCliente}}/{{contrato.nombreArchivo}}"
+            class="btn-outline"
+            title="ver contrato"
+          >
+            <i class="ti-file"></i>
+        </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-between p-2 scroll">
+    <ngb-pagination
+      [collectionSize]="collectionSize"
+      [(page)]="page"
+      [pageSize]="pageSize"
+      (pageChange)="refreshContratos()"
+    >
+    </ngb-pagination>
+  </div>
+
+</div>

@@ -16,7 +16,7 @@
           aria-label="Default select example"
         >
           <option selected>Seleccione tipo de documento</option>
-          <option value="CC">Cedula de ciudadanía</option>
+          <option value="Cédula de ciudadanía">Cédula de ciudadanía</option>
           <option value="NIT">Nit</option>
         </select>
         <input
@@ -27,32 +27,24 @@
         />
         <span class="md-line"></span>
       </div>
+     
       <div class="input-group">
-        <select
-          placehorder="Tipo Persona"
-          formControlName="tipoPersona"
-          class="form-control mr-4"
-          aria-label="Default select example"
-        >
-          <option selected>Tipo Persona</option>
-          <option value="PN">Persona Natural</option>
-          <option value="PJ">Persona Jurídica</option>
-        </select>
         <input
-          formControlName="nombre"
-          type="text"
-          class="form-control mr-4"
-          placeholder="Nombres"
-        />
-        <span class="md-line"></span>
-        <input
-          formControlName="apellido"
-          type="text"
-          class="form-control"
-          placeholder="Apellidos"
-        />
-        <span class="md-line"></span>
+        formControlName="nombre"
+        type="text"
+        class="form-control mr-4"
+        placeholder="Nombres"
+      />
+      <span class="md-line"></span>
+      <input
+        formControlName="apellido"
+        type="text"
+        class="form-control"
+        placeholder="Apellidos"
+      />
+      <span class="md-line"></span>
       </div>
+
       <div class="input-group">
         <input
           formControlName="telefono"
@@ -89,8 +81,8 @@
           aria-label="Default select example"
         >
           <option selected>Sexo</option>
-          <option value="M">Masculino</option>
-          <option value="F">Femenino</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Femenino">Femenino</option>
         </select>
         <select
           formControlName="estadoCivil"
@@ -98,10 +90,10 @@
           aria-label="Default select example"
         >
           <option selected>Estado civil</option>
-          <option value="S">Soltero</option>
-          <option value="UN">Unión libre</option>
-          <option value="C">Casado</option>
-          <option value="D">Divorciado</option>
+          <option value="Soltero">Soltero</option>
+          <option value="Union libre">Unión libre</option>
+          <option value="Casado">Casado</option>
+          <option value="Divorciado">Divorciado</option>
         </select>
       </div>
 
@@ -192,16 +184,9 @@
         <td>{{ item.telefono }}</td>
         <td>{{ item.email }}</td>
         <td>
+     
           <button
-          (click)="verInformacion(content, item)"
-            class="btn-outline mr-2"
-            data-toggle="tooltip"
-            data-placement="bottom"
-            title="Ver infomracion"
-          >
-            <i class="ti-eye"></i>
-          </button>
-          <button
+          (click)="editarInformacion(content, item)"
             class="btn-outline"
             data-toggle="tooltip"
             data-placement="bottom"
@@ -243,38 +228,36 @@
       <div class="auth-box">
         <div class="input-group">
           <select 
+            title="Tipo documento"
             formControlName="tipoDocumento"
             class="form-control mr-4"
             aria-label="Default select example"
           >
-            <option selected>Seleccione tipo de documento</option>
-            <option value="CC">Cedula de ciudadanía</option>
+          <option value="{{ selectedAbogado.tipoDoc }}" selected>
+            {{ selectedAbogado.tipoDoc }}
+          </option>
+          
+            <option value="Cédula de ciudadanía">Cedula de ciudadanía</option>
             <option value="NIT">Nit</option>
           </select>
           <input
+          disabled
             type="number"
             formControlName="identidad"
             class="form-control"
             placeholder="Número de Identificación"
+            title="Número de Identificación"
           />
           <span class="md-line"></span>
         </div>
         <div class="input-group">
-          <select
-            placehorder="Tipo Persona"
-            formControlName="tipoPersona"
-            class="form-control mr-4"
-            aria-label="Default select example"
-          >
-            <option selected>Tipo Persona</option>
-            <option value="PN">Persona Natural</option>
-            <option value="PJ">Persona Jurídica</option>
-          </select>
+      
           <input
             formControlName="nombre"
             type="text"
             class="form-control mr-4"
             placeholder="Nombres"
+            title="Nombres"
           />
           <span class="md-line"></span>
           <input
@@ -282,6 +265,7 @@
             type="text"
             class="form-control"
             placeholder="Apellidos"
+            title="Apellidos"
           />
           <span class="md-line"></span>
         </div>
@@ -320,20 +304,24 @@
             class="form-control mr-4"
             aria-label="Default select example"
           >
-            <option selected>Sexo</option>
-            <option value="M">Masculino</option>
-            <option value="F">Femenino</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Femenino">Femenino</option>
+            <option value="{{ selectedAbogado.genero }}" selected>
+              {{ selectedAbogado.genero }}
+            </option>
           </select>
           <select
             formControlName="estadoCivil"
             class="form-control"
             aria-label="Default select example"
-          >
-            <option selected>Estado civil</option>
-            <option value="S">Soltero</option>
-            <option value="UN">Unión libre</option>
-            <option value="C">Casado</option>
-            <option value="D">Divorciado</option>
+          > 
+          <option value="{{ selectedAbogado.estadoCivil }}" selected>
+            {{ selectedAbogado.estadoCivil }}
+          </option>
+            <option value="Soltero">Soltero</option>
+            <option value="Union libre">Unión libre</option>
+            <option value="Casado">Casado</option>
+            <option value="Divorciado">Divorciado</option>
           </select>
         </div>
   
@@ -387,6 +375,9 @@
             type="date"
             class="form-control"
             placeholder="Fecha nacimiento"
+            data-bs-toggle="tooltip" data-bs-placement="top"
+            data-bs-custom-class="custom-tooltip"
+            data-bs-title="Fecha de nacimiento"
           />
           <span class="md-line"></span>
         </div>
@@ -394,13 +385,23 @@
         <div class="row m-t-30">
           <div class="col-md-12">
             <button
-              (click)="registrarAbogado()"
-              [disabled]="!formAbogado.valid"
+              (click)="editarAbogado()"
+            
               type="button"
               class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20"
             >
               Editar Información Abogado
             </button>
+          </div>
+        </div>
+        <div class="row m-t-30" *ngIf="respuestaEditar === true">
+          <div class="col-md-12">
+            <div
+              class="alert alert-success d-flex align-items-center"
+              role="alert"
+            >
+              <strong>Se actualizó correctamente el Abogado.</strong>
+            </div>
           </div>
         </div>
       </div>
