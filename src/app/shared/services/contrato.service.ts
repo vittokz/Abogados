@@ -15,7 +15,7 @@ export class ContratoService {
   //Crear un contrato
   createContrato(contrato): Observable<any> {
     return this.http.post<any>(
-      this.apiUrl + "/contratos/addContrato.php",
+      this.apiUrl + "contratos/addContrato.php",
       contrato
     );
   }
@@ -23,7 +23,7 @@ export class ContratoService {
   //RECUPERAR TODOS LOS CONTRATOS
   getAllContratos(): Observable<IContrato[]> {
     return this.http.get<IContrato[]>(
-      this.apiUrl + "/contratos/getAllContratos.php"
+      this.apiUrl + "contratos/getAllContratos.php"
     );
   }
 

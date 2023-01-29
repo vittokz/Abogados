@@ -34,6 +34,14 @@ const routes: Routes = [
         loadChildren: () => import('./pages/contratos/contratos.module').then(m => m.ContratosModule)
       },
       {
+        path: 'procesos',
+        loadChildren: () => import('./pages/procesos/procesos.module').then(m => m.ProcesosModule)
+      },
+      {
+        path: 'procesos-externos',
+        loadChildren: () => import('./pages/procesos-rama-judicial/procesos-rama-judicial.module').then(m => m.ProcesosRamaJudicialModule)
+      },
+      {
         path: 'dashboard',
         loadChildren: () => import('./pages/dashboard/dashboard-default/dashboard-default.module').then(m => m.DashboardDefaultModule)
       }, {

@@ -1,0 +1,86 @@
+<div class="container">
+    <form [formGroup]="formProceso" class="md-float-material">
+         <div class="auth-box">
+            <div class="row m-b-20">
+                <div class="col-md-12">
+                  <h3 class="text-center txt-primary">Procesos</h3>
+                </div>
+            </div>
+         
+            <div class="input-group">
+              <input formControlName="numProceso" type="text" 
+              class="form-control" placeholder="Número de proceso">
+              <span class="md-line"></span>
+            </div>
+         
+          <div class="row m-t-30">
+              <div class="col-md-4">
+                <button
+                (click)="buscarProceso()"
+                [disabled]="!formProceso.valid"
+                type="button" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">
+                Buscar Proceso</button>
+              </div>
+          </div>
+         </div>
+    </form>
+    <div *ngIf="existeUsuario" class="card mt-3" style="width: 68rem;">
+        <div class="card-body">
+          <h5 class="card-title">Información del Cliente</h5><br>
+          <p class="card-text mt-2">Nombre <strong>{{nombre}}</strong> identificado(a) con número de identidad N° <strong>{{identidad}}</strong>, información:</p>
+        </div>
+        <div class="d-flex flex-row justify-content-around">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Emáil: {{email}}</li>
+            <li class="list-group-item">Teléfono: {{telefono}}</li>
+            <li class="list-group-item">Móvil: {{movil}}</li>
+            <li class="list-group-item">Dirección: {{direccion}}</li>
+          </ul>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Tipo persona: {{tipoPersona}}</li>
+            <li class="list-group-item">Especialidad: {{especialidad}}</li>
+            <li class="list-group-item">Fecha Nacimiento: {{fechaNacimiento}}</li>
+            <li class="list-group-item">Usuario regitro: {{usuarioRegistro}}</li>
+          </ul>
+        </div>
+      </div>
+      <div *ngIf="existeUsuario" class="card mt-3" style="width: 68rem;">
+        <div class="card-body">
+          <h5 class="card-title">Información del Abogado</h5><br>
+        </div>
+        <div class="d-flex flex-row justify-content-around">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Emáil: {{abogadoEncontrado.email}}</li>
+                <li class="list-group-item">Teléfono: {{abogadoEncontrado.telefono}}</li>
+                <li class="list-group-item">Móvil: {{abogadoEncontrado.movil}}</li>
+                <li class="list-group-item">Dirección: {{abogadoEncontrado.direccion}}</li>
+              </ul>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Tarjeta Profesional: {{abogadoEncontrado.tarjetaProfesional}}</li>
+                <li class="list-group-item">Especialidad: {{abogadoEncontrado.especialidad}}</li>
+                <li class="list-group-item">Fecha Nacimiento: {{abogadoEncontrado.fechaNacimiento}}</li>
+                <li class="list-group-item">Usuario regitro: {{abogadoEncontrado.usuarioRegistro}}</li>
+              </ul>
+        </div>
+      </div>
+      <div *ngIf="existeUsuario" class="card mt-3" style="width: 68rem;">
+        <div class="card-body">
+          <h5 class="card-title">Información del Proceso</h5><br>
+        </div>
+        <div *ngFor="let proceso of procesoEncontrado" class="d-flex flex-row justify-content-around">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">N° Contrato: {{proceso.idContrato}}</li>
+            <li class="list-group-item">N° proceso: {{proceso.numProceso}}</li>
+            <li class="list-group-item">Tipo proceso: {{proceso.tipoProceso}}</li>
+            <li class="list-group-item">Fecha Registro: {{proceso.fechaRegistro}}</li>
+
+          </ul>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Demandado: {{proceso.demandado}}</li>
+            <li class="list-group-item">Departamento: {{proceso.departamento}}</li>
+            <li class="list-group-item">Municipio: {{proceso.municipio}}</li>
+            <li class="list-group-item">Juzgado: {{proceso.juzgado}}</li>
+          </ul>
+        </div>
+      </div>
+</div>

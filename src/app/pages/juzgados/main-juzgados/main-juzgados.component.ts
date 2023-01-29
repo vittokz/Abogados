@@ -135,7 +135,6 @@ export class MainJuzgadosComponent implements OnInit {
     this.getDepartamentos();
     this.crearFormulario();
   }
-
   //RECUPERAR TODOS LOS DEPARTAMENTOS
   getDepartamentos() {
     this.localidadesServices.getAllDepartamentos().subscribe((data) => {

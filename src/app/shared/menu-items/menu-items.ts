@@ -70,6 +70,20 @@ const MENUITEMS = [
         type: "link",
         icon: "ti-user",
       },
+      {
+        state: "procesos",
+        short_label: "B",
+        name: "Procesos",
+        type: "link",
+        icon: "ti-agenda",
+      },
+      {
+        state: "procesos-externos",
+        short_label: "B",
+        name: "Procesos Consulta externa",
+        type: "link",
+        icon: "ti-book",
+      },
       // {
       //   state: 'dashboard',
       //   short_label: 'D',

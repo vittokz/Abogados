@@ -1,0 +1,143 @@
+<div class="container">
+  <form [formGroup]="formProceso" class="md-float-material">
+    <div class="auth-box">
+      <div class="row m-b-20">
+        <div class="col-md-12">
+          <h3 class="text-center txt-primary">Procesos</h3>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <input
+          formControlName="numProceso"
+          type="text"
+          class="form-control"
+          placeholder="Número de proceso 23 digitos"
+        />
+        <span class="md-line"></span>
+      </div>
+
+      <div class="row m-t-30">
+        <div class="col-md-4">
+          <button
+            (click)="buscarProceso()"
+            [disabled]="!formProceso.valid"
+            type="button"
+            class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20"
+          >
+            Buscar Proceso
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!--Si proceso no existe-->
+  <div *ngIf="existeUsuario===false" class="alert alert-danger" role="alert">
+    El proceso digitado no existe!!!
+  </div>
+  <!--Datos encontrados del proceso-->
+  <div
+    *ngIf="existeUsuario"
+    class="card mt-3 bg-color-info"
+    style="width: 68rem"
+  >
+    <div class="card-body">
+      <h3 class="card-title"><strong>Información del Proceso</strong></h3>
+      <br /><br />
+      <p class="card-text mt-2">
+        <strong>Id proceso</strong> :
+        {{ procesoSeleccionado.procesos[0].idProceso }}
+      </p>
+    </div>
+    <div class="d-flex flex-row justify-content-around">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <strong>Fecha proceso:</strong>
+          {{ procesoSeleccionado.procesos[0].fechaProceso }}
+        </li>
+        <li class="list-group-item">
+          <strong>Última actualización:</strong>
+          {{ procesoSeleccionado.procesos[0].fechaUltimaActualizacion }}
+        </li>
+        <li class="list-group-item">
+          <strong>Departamento:</strong>
+          {{ procesoSeleccionado.procesos[0].departamento }}
+        </li>
+        <li class="list-group-item">
+          <strong>Sujetos procesales:</strong>
+          {{ procesoSeleccionado.procesos[0].sujetosProcesales }}
+        </li>
+        <li class="list-group-item">
+          <strong>Despacho: </strong>
+          {{ procesoSeleccionado.procesos[0].despacho }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!--DETALLE DEL PROCESO-->
+  <div
+    *ngIf="existeUsuario"
+    class="card mt-3 bg-color-detalle"
+    style="width: 68rem"
+  >
+    <div class="card-body">
+      <h3 class="card-title"><strong>Detalle del Proceso</strong></h3>
+      <br /><br />
+      <p class="card-text mt-2">
+        <strong>Id proceso</strong> :
+        {{ procesoSeleccionado.procesos[0].idProceso }}
+      </p>
+    </div>
+    <div class="d-flex flex-row justify-content-start">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <strong>Ponente:</strong> {{ detalleProceso.ponente }}
+        </li>
+        <li class="list-group-item">
+          <strong>Tipo proceso:</strong> {{ detalleProceso.tipoProceso }}
+        </li>
+        <li class="list-group-item">
+          <strong>Clase proceso:</strong> {{ detalleProceso.claseProceso }}
+        </li>
+        <li class="list-group-item">
+          <strong>Recurso:</strong> {{ detalleProceso.recurso }}
+        </li>
+        <li class="list-group-item">
+          <strong>Contenido radicación: </strong>
+          {{ detalleProceso.contenidoRadicacion }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!--Lista de actuaciones-->
+  <div *ngIf="existeUsuario" class="card mt-3 table-responsive" style="width: 68rem">
+    <div class="card-body">
+      <h3 class="card-title"><strong>Actuaciones del Proceso</strong></h3>
+      <br /><br />
+    </div>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Fecha Actuación</th>
+          <th scope="col">Actuación</th>
+          <th scope="col">Anotación</th>
+          <th scope="col">Fecha Registro</th>
+          <th scope="col">Fecha inicial</th>
+          <th scope="col">Fecha final</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr  *ngFor="let actuacion of listActuaciones.actuaciones; let i = index">
+          <th scope="row">{{i+1}}</th>
+          <td>{{ actuacion.fechaActuacion | date }}</td>
+          <td>{{ actuacion.actuacion }}</td>
+          <td>{{ actuacion.anotacion }}</td>
+          <td>{{ actuacion.fechaRegistro | date  }}</td>
+          <td>{{ actuacion.fechaInicial | date  }}</td>
+          <td>{{ actuacion.fechaFinal | date  }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

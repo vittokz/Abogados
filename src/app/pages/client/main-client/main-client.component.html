@@ -24,10 +24,30 @@
           </div>
          </div>
     </form>
-    <table class="table table-striped table-hover">
+    <div *ngIf="existeUsuario" class="card mt-3" style="width: 68rem;">
+      <div class="card-body">
+        <h5 class="card-title">Cliente Encontrado</h5><br>
+        <p class="card-text mt-2">Nombre <strong>{{nombre}}</strong> identificado(a) con número de identidad N° <strong>{{identidad}}</strong>, información:</p>
+      </div>
+      <div class="d-flex flex-row justify-content-around">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Emáil: {{email}}</li>
+          <li class="list-group-item">Teléfono: {{telefono}}</li>
+          <li class="list-group-item">Móvil: {{movil}}</li>
+          <li class="list-group-item">Dirección: {{direccion}}</li>
+        </ul>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Tipo persona: {{tipoPersona}}</li>
+          <li class="list-group-item">Especialidad: {{especialidad}}</li>
+          <li class="list-group-item">Fecha Nacimiento: {{fechaNacimiento}}</li>
+          <li class="list-group-item">Usuario regitro: {{usuarioRegistro}}</li>
+        </ul>
+      </div>
+    </div>
+    <table class="table table-striped table-hovermt-3">
       <thead>
         <tr>
-          <th scope="col">#</th>
+          <th scope="col">ID Contrato</th>
           <th scope="col">Nombre contrato</th>
           <th scope="col">Identidad Abogado Asignado</th>
           <th scope="col">Acciones</th>
@@ -45,7 +65,7 @@
             >
               <i class="ti-file"></i>
           </a>
-          <a 
+          <a (click)="activarProceso(contrato)"
               class="btn-outline"
               title="Seleccionar contrato"
             >
@@ -55,4 +75,68 @@
         </tr>
       </tbody>
     </table>
+    <br>
+    <form *ngIf="isActivoProcesos" [formGroup]="formProceso" class="md-float-material">
+      <div class="auth-box">
+         <div class="row m-b-20">
+             <div class="col-md-12">
+               <h3 class="text-center txt-primary">Registrar Proceso al contrato N° {{idContrato}}</h3>
+             </div>
+         </div>
+      
+         <div class="input-group">
+           <input formControlName="numProceso" type="text" 
+           class="form-control mr-2" placeholder="Número de proceso debe contener 23 caracteres">
+           <span class="md-line"></span>
+           
+           <input formControlName="demandado" type="text" 
+           class="form-control" placeholder="Nombre del demandado">
+           <span class="md-line"></span>
+         </div>
+
+         <div class="input-group d-flex justify-content-around">
+          <div class="d-flex flex-column w-100 justify-content-between mb-2">
+            <span class="md-line- mb-2">Seleccione Tipo Proceso</span>
+            <select formControlName="tipoProceso" class="form-control mr-4" aria-label="Default select example">
+              <option selected>Seleccione tipo proceso</option>
+              <option value="Laboral">Laboral</option>
+              <option value="Civil">Civil</option>
+              <option value="Familia">Familia</option>
+              <option value="Administrativo">Administrativo</option>
+            </select>
+          </div>
+
+
+            <div class="d-flex flex-column w-100 justify-content-between mb-2">
+              <span class="md-line- mb-2">Seleccione Juzgado</span>
+              <select formControlName="juzgado" class="form-control mr-4" aria-label="Default select example">
+                <option selected>Seleccione Juzgado</option>
+                <option value="{{juzgado.idJuzgado}}" *ngFor="let juzgado of listJuzgados">{{juzgado.nombre | uppercase}}</option>
+              </select>
+            </div>
+            <div class="d-flex flex-column w-100 justify-content-around mb-2">
+              <span class="md-line mb-2">Seleccione Departamento</span>
+                <select (change)="selecDepartamento($event)" formControlName="departamento" class="form-control mr-4" aria-label="Default select example">
+                  <option value="{{dep.id}}" *ngFor="let dep of listDepartamentos" selected>{{ dep.nombre}}</option>
+                </select>
+            </div>
+            <div class="d-flex flex-column w-100 justify-content-around">
+              <span class="md-line mb-2">Seleccione Municipio</span>
+              <select formControlName="municipio" class="form-control" aria-label="Default select example">
+                <option value="{{muni.id}}" *ngFor="let muni of listMunicipios" selected>{{ muni.nombre}}</option>
+              </select>
+            </div>
+         </div>
+      
+       <div class="row m-t-30">
+           <div class="col-md-4">
+             <button
+             (click)="registrarProceso()"
+             [disabled]="!formProceso.valid"
+             type="button" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">
+             Registrar proceso</button>
+           </div>
+       </div>
+      </div>
+ </form>
 </div>

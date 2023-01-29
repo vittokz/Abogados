@@ -113,6 +113,7 @@ export class MainContratosComponent implements OnInit {
           if(data[0]==="ok")
           {
             this.alertService.toast();
+            this.formContrato.reset();
             this.getAllContratos();
           }
         }
