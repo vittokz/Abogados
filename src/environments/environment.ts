@@ -6,5 +6,5 @@
 export const environment = {
   production: false,
   // apiUrl: "https://dalelapata.narino.gov.co/ApiAbo/"
-  apiUrl: "http://localhost/api-abogados/",
+  apiUrl: "https://dalelapata.narino.gov.co/ApiAbo/",
 };
